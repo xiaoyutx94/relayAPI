@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Claude 4.6 likelihood detector (single-file CLI).
+Claude 4.6 likelihood detector
 
 This script is extracted from the project's existing request format and stream
 parsing logic, then adds a minimal scoring layer for:
@@ -14,6 +14,7 @@ import argparse
 import json
 import re
 import sys
+import time
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
@@ -48,6 +49,8 @@ class StreamSignals:
     output_tokens_samples: List[int] = field(default_factory=list)
     empty_signature_delta_count: int = 0
     usage_shape_valid: bool = True
+    first_char_latency_seconds: Optional[float] = None
+    request_duration_seconds: Optional[float] = None
 
 
 @dataclass
@@ -181,6 +184,8 @@ def send_request_and_collect(
     body = build_body(message, model_id, with_thinking=with_thinking, with_system=with_system)
     signals = StreamSignals()
     full_response = ""
+    request_start_time = time.perf_counter()
+    first_char_latency_seconds: Optional[float] = None
     request_input: Dict[str, object] = {
         "url": url,
         "headers": _mask_headers(headers),
@@ -254,6 +259,8 @@ def send_request_and_collect(
                         if delta_type == "text_delta":
                             text = delta.get("text", "")
                             if isinstance(text, str):
+                                if text and first_char_latency_seconds is None:
+                                    first_char_latency_seconds = time.perf_counter() - request_start_time
                                 full_response += text
                                 signals.has_text_delta = True
                             else:
@@ -261,6 +268,8 @@ def send_request_and_collect(
                         elif delta_type == "thinking_delta":
                             thinking_text = delta.get("thinking", "")
                             if isinstance(thinking_text, str):
+                                if thinking_text and first_char_latency_seconds is None:
+                                    first_char_latency_seconds = time.perf_counter() - request_start_time
                                 signals.thinking_delta_seen = True
                             else:
                                 signals.usage_shape_valid = False
@@ -286,6 +295,8 @@ def send_request_and_collect(
                     elif event_type == "message_stop":
                         signals.has_message_stop = True
 
+    signals.first_char_latency_seconds = first_char_latency_seconds
+    signals.request_duration_seconds = time.perf_counter() - request_start_time
     return full_response, signals, request_input
 
 
@@ -583,6 +594,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    script_start_time = time.perf_counter()
     args = parse_args()
     with_thinking = not args.no_thinking
     with_system = not args.no_system
@@ -643,6 +655,11 @@ def main() -> int:
         },
         "notes": result.notes,
     }
+    payload["timings"] = {
+        "first_char_latency_seconds": signals.first_char_latency_seconds,
+        "request_duration_seconds": signals.request_duration_seconds,
+        "script_duration_seconds": time.perf_counter() - script_start_time,
+    }
 
     if args.json:
         print(json.dumps(payload, ensure_ascii=False, indent=2))
@@ -659,6 +676,17 @@ def main() -> int:
     print(f"- thinking  : {result.thinking_score}/15")
     print(f"- usage     : {result.usage_score}/15")
     print(f"- penalty   : {result.penalty_score}")
+    print("")
+    first_char = payload["timings"]["first_char_latency_seconds"]
+    request_duration = payload["timings"]["request_duration_seconds"]
+    script_duration = payload["timings"]["script_duration_seconds"]
+    first_char_str = "N/A" if first_char is None else f"{first_char:.3f}s"
+    request_duration_str = "N/A" if request_duration is None else f"{request_duration:.3f}s"
+    script_duration_str = f"{script_duration:.3f}s"
+    print("Timings:")
+    print(f"- first char latency : {first_char_str}")
+    print(f"- request duration   : {request_duration_str}")
+    print(f"- script duration    : {script_duration_str}")
     print("")
 
     print("Input request:")
