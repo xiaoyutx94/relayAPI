@@ -117,6 +117,8 @@ GPT5.4是人民币¥1/6 一百万token.
 
 如果要充值, 最低充值100人民币, 不方便用户进行尝试.
 
+2025-3-22更新: 最近封号很多, 已经下掉了MAX号池分组, 只留下了反代的分组.
+
 ### [DawCode](https://dawclaudecode.com/register?aff=nbv1)
 2026年新开的一个站点, 提供Claude, GPT,Gemini三种类型的API.
 价格也不贵, 逆向出来Opus4.6 价格是人民币¥2/10一百万Token.
@@ -128,17 +130,6 @@ GPT5.4是人民币¥1/6 一百万token.
 
 优点是新用户注册送4块钱的额度, 每天可以签到送一些额度. 很适合进行尝试
 
-### [米醋AI](https://www.openclaudecode.cn/register?aff=rBFh)
-前身是OpenClaudeCode, 之前的风波里表现还挺好. 现在重新开张.
-站长是一个大V, 应该有信誉度.
-
-支持Claude, Gemini和GPT,Grok的系列的API接口. 没有包月卡.
-
-价格方面, 便宜的Opus4.6 是人民币¥1/5 一百万Token, 他们维护的MAX号池价格是人民币¥4.2/21一百万Token.  看他们自己的Status网站, 自己维护的MAX号池稳定性100%, 应该还不错.
-
-GPT5.4的价格是人民币¥0.87/5.3 一百万Token, 价格也还挺好的
-
-新用户没有免费额度, 可以先冲一块钱试试.
 
 ###  [无限API](https://infai.cc/register?aff=8EmH)
 支持的模型很多, 基本上你想得到的都支持.
@@ -301,6 +292,20 @@ GPT5.4价格很贵, 人民币¥0.77/4.5一百万token.
 
 新用户送1块钱的额度.
 QQ群不太活跃
+
+### [米醋AI](https://www.openclaudecode.cn/register?aff=rBFh)
+前身是OpenClaudeCode, 之前的风波里表现还挺好. 现在重新开张.
+站长是一个大V, 应该有信誉度.
+
+支持Claude, Gemini和GPT,Grok的系列的API接口. 没有包月卡.
+
+价格方面, 便宜的Opus4.6 是人民币¥1/5 一百万Token, 他们维护的MAX号池价格是人民币¥4.2/21一百万Token.  看他们自己的Status网站, 自己维护的MAX号池稳定性100%, 应该还不错.
+
+GPT5.4的价格是人民币¥0.87/5.3 一百万Token, 价格也还挺好的
+
+新用户没有免费额度, 可以先冲一块钱试试.
+
+2026-3-22 更新: 暂停充值了
 
 ## 不推荐的
 
