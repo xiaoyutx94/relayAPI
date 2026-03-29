@@ -363,7 +363,7 @@ GPT5.4价格很贵, 人民币¥0.77/4.5一百万token.
 新用户送1块钱的额度.
 QQ群不太活跃
 
-### [DuckCoding](https://duckcoding.com/register?aff=bRob)
+### [DuckCoding](https://www.duckcoding.ai/register?aff=bRob)
 这是2025年10月开始运营的站点.
 
 支持Claude, Gemini,GPT 和 Grok.
